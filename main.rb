@@ -28,7 +28,8 @@ def exibir_menu_principal
   puts "1. Ver Saldo"
   puts "2. Depositar Dinheiro"
   puts "3. Sacar Dinheiro"
-  puts "4. Sair"
+  puts "4. Ver Histórico de Movimentações"
+  puts "5. Sair"
   print "\nEscolha uma opção: "
 
   # Ele devolve (return) o número escolhido para o resto do programa
@@ -36,12 +37,14 @@ def exibir_menu_principal
 
 end
 
-def depositar(saldo_atual)
+def depositar(saldo_atual, historico_atual)
   print "\nQuanto você deseja depositar? R$ "
   valor = gets.chomp.to_f # .to_f converte para Float (número com centavos)
 
   if valor > 0
     novo_saldo = saldo_atual + valor # Criamos a variável aqui
+    historico_atual << "Depósito + R$ #{format('%.2f', valor)}"
+
     puts "Depósito de R$ #{format('%.2f', valor)} realizado com sucesso!"
     return novo_saldo
   else
@@ -50,12 +53,14 @@ def depositar(saldo_atual)
   end
 end
 
-def sacar(saldo_atual)
+def sacar(saldo_atual, historico_atual)
   print "\nQuanto você deseja sacar? R$ "
   valor = gets.chomp.to_f
 
   if valor > 0 && valor <= saldo_atual
     novo_saldo = saldo_atual - valor
+    historico_atual << "Saque - R$ #{format('%.2f', valor)}"
+
     puts " Saque de R$ #{format('%2.f', valor)} realizado com sucesso!"
     return novo_saldo
   elsif valor > saldo_atual
@@ -88,24 +93,30 @@ while opcao !=4
     print "\nPressione ENTER para voltar ao menu ..."
     gets
   when 2
-    saldo = depositar(saldo)
+    saldo = depositar(saldo, historico)
     # -- PAUSA AQUI --
     print "\nPressione ENTER para continuar ..."
     gets
-    saldo = depositar(saldo)
   when 3
-     saldo = sacar(saldo)
+     saldo = sacar(saldo, historico)
      # -- PAUSA AQUI --
      print "\nPressione ENTER para continuar ..."
      gets
   when 4
+    puts "\n--- Histórico de Movimentações ---"
+    if historico.empty?
+      puts "Nenhuma movimentação realizada."
+    else
+      historico.each do |movimentação|
+        puts "#{movimentação}"
+      end
+    end
+    print "\nPressione ENTER para voltar ao menu ..."
+    gets
+  when 5
     puts "\nObrigado por usar o Ruby Bank, #{nome_do_cliente}! Até a próxima."
   else
     puts "\nOpção inválida! Tente novamente."
     sleep(1) # Pausa de 1 segundo para o usuário ler o erros
   end
 end
-
-
-# O programa para aqui e espera você digitar a opção
-opcao_escolhida = exibir_menu_principal
