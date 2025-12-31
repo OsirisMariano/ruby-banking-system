@@ -2,7 +2,9 @@ osiris
 
 
 
-110.0
+1100.0
 Depósito + R$ 100.00
 Depósito + R$ 30.00
 Saque - R$ 20.00
+Depósito + R$ 1000.00
+Saque - R$ 10.00
