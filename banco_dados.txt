@@ -1,10 +1,10 @@
-osiris
-
-
-
-1100.0
+Nome: osiris
+sobrenome: mariano
+email: osiris@osiris.com
+telefone: 11 11111111
+senha: 1234
+saldo: 100.0
+0.0
 Depósito + R$ 100.00
 Depósito + R$ 30.00
-Saque - R$ 20.00
-Depósito + R$ 1000.00
-Saque - R$ 10.00
+Saque - R$ 30.00

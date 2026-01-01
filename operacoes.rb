@@ -14,7 +14,14 @@ def depositar(saldo_atual, historico_atual)
   end
 end
 
-def sacar(saldo_atual, historico_atual)
+def sacar(saldo_atual, historico_atual, senha_correta)
+  print = "Digite sua senha para autorizar o saque: "
+  senha_digitada = gets.chomp
+  if senha_digitada != senha_correta
+    puts "Senha incirreta! Operação cancelada."
+    return saldo_atual
+  end
+  
   print "\nQuanto você deseja sacar? R$ "
   valor = gets.chomp.to_f
 
