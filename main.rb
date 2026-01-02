@@ -26,25 +26,38 @@ while opcao != 5
   opcao = exibir_menu_principal
 
   case opcao
-  when 1
-    puts "\n Detalhes da Conta:"
-    puts "\n Seu saldo é R$ #{format('%.2f', saldo)}"
-    # -- PAUSA AQUI --
+  when 1 # CONSULTAR SALDO (Ajustado para apenas exibir)
+    puts "\n--- Detalhes da Conta ---"
+    puts "Cliente: #{nome} #{sobrenome}"
+    puts "Saldo Atual: R$ #{format('%.2f', saldo)}"
     print "\nPressione ENTER para voltar ao menu ..."
     gets
-  when 2
-    saldo = depositar(saldo, historico)
+
+  when 2 # DEPÓSITO (Agora com a lógica completa)
+    # 1. Pergunta e valida
+    valor = ler_valor_valido("Quanto deseja depositar? R$ ")
+    
+    # 2. Executa a operação
+    saldo = depositar(saldo, historico, valor)
+    
+    # 3. Salva no arquivo
     salvar_dados(nome, sobrenome, email, telefone, senha, saldo, historico)
-    # -- PAUSA AQUI --
+    
     print "\nPressione ENTER para continuar ..."
     gets
-  when 3
-    # Passamos a 'senha' como o terceiro argumento
-     saldo = sacar(saldo, historico, senha)
-     salvar_dados(nome, sobrenome, email, telefone, senha, saldo, historico)
-     # -- PAUSA AQUI --
-     print "\nPressione ENTER para continuar ..."
-     gets
+
+  when 3 # SAQUE
+    # 1. Pergunta e valida o valor numérico
+    valor = ler_valor_valido("Quanto deseja sacar? R$ ")
+
+    # 2. Executa a operação (dentro do 'sacar' ele pedirá a senha)
+    saldo = sacar(saldo, historico, senha, valor)
+    
+    # 3. Salva no arquivo
+    salvar_dados(nome, sobrenome, email, telefone, senha, saldo, historico)
+    
+    print "\nPressione ENTER para continuar ..."
+    gets
   when 4
     puts "\n--- Histórico de Movimentações ---"
     if historico.empty?

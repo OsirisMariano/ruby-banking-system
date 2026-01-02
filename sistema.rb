@@ -75,3 +75,27 @@ def carregar_dados
   # RETORNO COMPLETO: Precisamos devolver as 6 coisas na ordem correta
   return nome, sobrenome, email, telefone, senha, saldo, historico
 end
+
+def ler_valor_valido(mensagem)
+  begin
+    print mensagem
+    # 1. Corrigido para .gsub e ajustado para trocar vírgula por ponto
+    entrada = gets.chomp.gsub(',', '.') 
+
+    # 2. Corrigida a Regex: "Se houver algo que NÃO seja dígito ou ponto, lance erro"
+    raise ArgumentError if entrada.empty? || entrada.match?(/[^\d.]/)
+    
+    valor = Float(entrada)
+
+    if valor <= 0
+      puts "❌ O valor deve ser maior que zero. Tente novamente."
+      # 3. Chamada recursiva corrigida (sem espaço)
+      return ler_valor_valido(mensagem)
+    end
+
+    return valor
+  rescue ArgumentError, TypeError
+    puts "⚠️ Entrada inválida. Por favor, use apenas números (Ex: 1000.50)."
+    retry
+  end
+end
