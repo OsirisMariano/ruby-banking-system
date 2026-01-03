@@ -59,7 +59,11 @@ while opcao != 5
     print "\nPressione ENTER para continuar ..."
     gets
   when 4
-    puts "\n--- Histórico de Movimentações ---"
+    limpar_tela
+    puts "\e[34m" + "="*40 + "\e[0m"
+    puts "\e[1;34m EXTRADO BANCÁRIO \e[0m"
+    puts "\e[34m" + "="*40 + "\e[0m"
+
     if historico.empty?
       puts "Nenhuma movimentação realizada."
     else
@@ -67,6 +71,7 @@ while opcao != 5
         puts "#{movimentação}"
       end
     end
+    puts "\e[34m" + "="*40 + "\e[0m"
     print "\nPressione ENTER para voltar ao menu ..."
     gets
   when 5

@@ -2,9 +2,10 @@ Nome: osiris
 sobrenome: mariano
 email: osiris@osiris.com
 telefone: 11 111111111
-senha: 1234
-saldo: 300.0
-Depósito + R$ 100.00
-Depósito + R$ 10.00
-Depósito + R$ 210.00
-Saque    - R$ 20.00
+senha: 1111
+saldo: 1810.0
+[32m03/01/2026 10:00 - Depósito   + R$    1000.00[0m
+[32m03/01/2026 10:00 - Depósito   + R$      20.00[0m
+[31m03/01/2026 10:00 - Saque      - R$      10.00[0m
+[32m03/01/2026 10:00 - Depósito   + R$    1000.00[0m
+[31m03/01/2026 10:01 - Saque      - R$     200.00[0m
