@@ -1,0 +1,11 @@
+{
+  "nome": "Osiris",
+  "sobrenome": "Mariano",
+  "senha": "1111",
+  "saldo": 1579.0,
+  "historico": [
+    "\u001b[31m05/01/2026 16:55 - Saque      - R$    1000.00\u001b[0m",
+    "\u001b[31m05/01/2026 16:56 - Saque      - R$       1.00\u001b[0m",
+    "\u001b[32m05/01/2026 16:58 - Depósito   + R$     100.00\u001b[0m"
+  ]
+}
