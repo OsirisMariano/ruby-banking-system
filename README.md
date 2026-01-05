@@ -1,12 +1,17 @@
 ## 💎 Projeto: Ruby Bank
 
 ### 📈 Progresso do Projeto
-![Progresso do Projeto](https://geps.dev/progress/50)
+![Progresso do Projeto](https://geps.dev/progress/65)
 
-Um simulador bancário robusto desenvolvido para explorar o ecossistema Ruby e princípios de Engenharia de Software.
+Simulador bancário desenvolvido para explorar o paradigma de **Orientação a Objetos** e persistência de dados.
 
 ### 🛠️ Funcionalidades Implementadas
-* **Extrato Inteligente:** Histórico com diferenciação por cores ANSI e alinhamento decimal de colunas.
-* **Segurança:** Sistema de autorização por senha para transações e tratamento de erros com `begin/rescue`.
-* **Gerenciamento de Tempo:** Registro de data e hora real em todas as operações via biblioteca `Date`.
-* **Persistência de Dados:** Salvamento automático de movimentações em arquivos locais.
+* **Arquitetura POO:** Lógica de negócio encapsulada na classe `ContaBancaria`.
+* **Persistência JSON:** Salvamento e carregamento automático do estado da conta (Saldo/Histórico).
+* **Extrato Inteligente:** Histórico com cores ANSI e alinhamento decimal de colunas.
+* **Segurança:** Validação de transações via senha e tratamento de erros com `begin/rescue`.
+* **UX de Terminal:** Navegação fluida com limpeza de tela e pausas para leitura.
+
+### 🚀 Como Executar
+1. Clone o repositório.
+2. Execute `ruby main.rb` no terminal.
