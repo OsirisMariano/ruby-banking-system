@@ -3,9 +3,11 @@ require_relative 'sistema'
 #require_relative 'operacoes'
 
 # 1. Criamos o objeto único
-minha_conta = ContaBancaria.new("João", "Silva", "1111", 500.0)
-minha_conta.exibir_resumo
+minha_conta = ContaBancaria.carregar_de_json
 
+if minha_conta.nil?
+  minha_conta = ContaBancaria.new("Osiris", "Mariano", "1111", 500.0)
+end
 limpar_tela
 puts "Bem-vindo ao Ruby Bank"
 minha_conta.exibir_resumo # Agora chamamos o comportamento do objeto
@@ -40,6 +42,7 @@ while opcao != 5
     print "\nPressione ENTER para continuar..."
     gets
   when 5
+    minha_conta.salvar_em_json
     puts "Obrigado por usar o Ruby Bank! Salvando dados..."
     # Aqui usaríamos sua função salvar_dados
   else

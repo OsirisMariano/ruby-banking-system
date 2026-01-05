@@ -1,14 +1,44 @@
 require 'date'
+require 'json'
 
 class ContaBancaria
   attr_accessor :nome, :sobrenome, :saldo, :historico
 
-  def initialize(nome, sobrenome, senha, saldo = 0.0)
+  def initialize(nome, sobrenome, senha, saldo = 0.0, historico = [])
     @nome = nome
     @sobrenome = sobrenome
     @senha = senha
     @saldo = saldo
     @historico = []
+  end
+
+  def salvar_em_json
+    dados = {
+      nome: @nome,
+      sobrenome: @sobrenome,
+      senha: @senha,
+      saldo: @saldo,
+      historico: @historico
+    }
+    File.open("dados_bancarios.json", "w") do |arquivo|
+      arquivo.write(JSON.pretty_generate(dados))
+    end
+  end
+
+  def self.carregar_de_json
+    caminho = "dados_bancarios.json"
+    return nil unless File.exist?(caminho)
+
+    arquivo = File.read(caminho)
+    dados = JSON.parse(arquivo)
+
+    new(
+      dados['nome'],
+      dados['sobrenome'],
+      dados['senha'],
+      dados['saldo'].to_f,
+      dados['historico']
+    )
   end
 
   # --- Adicione este método aqui dentro! ---
