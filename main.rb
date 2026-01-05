@@ -1,83 +1,48 @@
+require_relative 'conta_bancaria'
 require_relative 'sistema'
-require_relative 'operacoes'
+#require_relative 'operacoes'
 
-# --- TESTE DO PROGRAMA ---
+# 1. Criamos o objeto único
+minha_conta = ContaBancaria.new("João", "Silva", "1111", 500.0)
+minha_conta.exibir_resumo
+
+limpar_tela
 puts "Bem-vindo ao Ruby Bank"
+minha_conta.exibir_resumo # Agora chamamos o comportamento do objeto
 
-nome, sobrenome, email, telefone, senha, saldo, historico = carregar_dados
-
-if nome.nil?
-  nome, sobrenome, email, telefone, senha = cadastrar_usuario
-
-  saldo = 0.0
-  historico = []
-
-  salvar_dados(nome, sobrenome, email, telefone, senha, saldo, historico)
-else
-  puts "Bem-vindo de volta, #{nome}!"
-end
-
-nome_do_cliente = nome
 opcao = 0
 
 while opcao != 5
   limpar_tela
-  puts "Olá, #{nome_do_cliente}! Seu saldo atual é R$ #{format('%.2f', saldo)}"
+  # 2. CHAMADA CORRETA: O nome do método no seu sistema.rb é exibir_menu_principal
   opcao = exibir_menu_principal
 
   case opcao
-  when 1 # CONSULTAR SALDO (Ajustado para apenas exibir)
-    puts "\n--- Detalhes da Conta ---"
-    puts "Cliente: #{nome} #{sobrenome}"
-    puts "Saldo Atual: R$ #{format('%.2f', saldo)}"
-    print "\nPressione ENTER para voltar ao menu ..."
+  when 1
+    minha_conta.exibir_resumo
+    print "\nPressione ENTER para continuar..."
     gets
-
-  when 2 # DEPÓSITO (Agora com a lógica completa)
-    # 1. Pergunta e valida
+  when 2
     valor = ler_valor_valido("Quanto deseja depositar? R$ ")
-    
-    # 2. Executa a operação
-    saldo = depositar(saldo, historico, valor)
-    
-    # 3. Salva no arquivo
-    salvar_dados(nome, sobrenome, email, telefone, senha, saldo, historico)
-    
-    print "\nPressione ENTER para continuar ..."
+    minha_conta.depositar(valor)
+    print "\nPressione ENTER para continuar..."
     gets
-
-  when 3 # SAQUE
-    # 1. Pergunta e valida o valor numérico
+  when 3
     valor = ler_valor_valido("Quanto deseja sacar? R$ ")
-
-    # 2. Executa a operação (dentro do 'sacar' ele pedirá a senha)
-    saldo = sacar(saldo, historico, senha, valor)
-    
-    # 3. Salva no arquivo
-    salvar_dados(nome, sobrenome, email, telefone, senha, saldo, historico)
-    
-    print "\nPressione ENTER para continuar ..."
+    minha_conta.sacar(valor)
+    print "\nPressione ENTER para continuar..."
     gets
   when 4
-    limpar_tela
-    puts "\e[34m" + "="*40 + "\e[0m"
-    puts "\e[1;34m EXTRADO BANCÁRIO \e[0m"
-    puts "\e[34m" + "="*40 + "\e[0m"
-
-    if historico.empty?
-      puts "Nenhuma movimentação realizada."
-    else
-      historico.each do |movimentação|
-        puts "#{movimentação}"
-      end
-    end
-    puts "\e[34m" + "="*40 + "\e[0m"
-    print "\nPressione ENTER para voltar ao menu ..."
+    # O método exibir_extrato está no seu sistema.rb e recebe o histórico do objeto
+    # Mas aqui vai uma dica de Senior: que tal mover o extrato para dentro da classe depois?
+    puts "\n--- EXTRATO DETALHADO ---"
+    minha_conta.historico.each { |h| puts h }
+    print "\nPressione ENTER para continuar..."
     gets
   when 5
-    puts "\nObrigado por usar o Ruby Bank, #{nome_do_cliente}! Até a próxima."
+    puts "Obrigado por usar o Ruby Bank! Salvando dados..."
+    # Aqui usaríamos sua função salvar_dados
   else
-    puts "\nOpção inválida! Tente novamente."
-    sleep(1) # Pausa de 1 segundo para o usuário ler o erros
+    puts "⚠️ Opção inválida!"
   end
 end
