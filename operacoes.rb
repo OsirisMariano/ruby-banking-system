@@ -1,44 +1,49 @@
 require 'date'
 
 def depositar(saldo, historico, valor)
+  return saldo if valor <= 0
+
   data_hora = DateTime.now.strftime('%d/%m/%Y %H:%M')
   saldo += valor
 
-  # PADRONIZAÇÃO DE ESPAÇOS:
-  # 'tipo' ocupa 10 espaços e 'valor_num' ocupa 10 espaços para alinhar os centavos
+  # --- ALINHAMENTO PROFISSIONAL ---
   tipo = "Depósito".ljust(10)
-  valor_num = format('%.2f', valor).rjust(10)
-
-  # Montagem da string usando as variáveis preparadas
-  historico << "\e[32m#{data_hora} - #{tipo} + R$ #{valor_num}\e[0m"
   
-  puts "✅ Depósito de R$ #{format('%.2f', valor)} realizado com sucesso!"
+  # 1. Criamos o símbolo fixo (5 espaços)
+  simbolo = "+ R$".ljust(5)
+  
+  # 2. Criamos o valor numérico alinhado à direita (10 espaços)
+  valor_f = format('%.2f', valor).rjust(10)
+
+  # Montamos a linha usando as peças separadas
+  historico << "\e[32m#{data_hora} - #{tipo} #{simbolo}#{valor_f}\e[0m"
+  
+  puts "✅ Depósito realizado!"
   return saldo
 end
 
 def sacar(saldo, historico, senha_correta, valor)
-  data_hora = DateTime.now.strftime('%d/%m/%Y %H:%M')
-  
-  print "Digite sua senha para autorizar o saque: "
-  tentativa_senha = gets.chomp
-
-  if tentativa_senha == senha_correta
-    if valor <= saldo
-      saldo -= valor
-      
-      # PADRONIZAÇÃO DE ESPAÇOS (IGUAL AO DEPÓSITO):
-      tipo = "Saque".ljust(10)
-      valor_num = format('%.2f', valor).rjust(10)
-
-      # Montagem da string usando as variáveis preparadas
-      historico << "\e[31m#{data_hora} - #{tipo} - R$ #{valor_num}\e[0m"
-      
-      puts "✅ Saque realizado!"
-    else
-      puts "❌ Saldo insuficiente."
-    end
-  else
-    puts "❌ Senha incorreta! Operação cancelada."
+  # ... (suas validações de segurança aqui) ...
+  return saldo if valor <= 0
+  print "Digite sua senha: "
+  return saldo if gets.chomp != senha_correta
+  if valor > saldo
+    puts "❌ Saldo insuficiente."
+    return saldo
   end
+
+  saldo -= valor
+  data_hora = DateTime.now.strftime('%d/%m/%Y %H:%M')
+
+  # --- ALINHAMENTO PROFISSIONAL ---
+  tipo = "Saque".ljust(10)
+  
+  # Usamos o mesmo tamanho de coluna (5 para símbolo, 10 para valor)
+  simbolo = "- R$".ljust(5)
+  valor_f = format('%.2f', valor).rjust(10)
+
+  historico << "\e[31m#{data_hora} - #{tipo} #{simbolo}#{valor_f}\e[0m"
+  
+  puts "✅ Saque realizado!"
   return saldo
 end
