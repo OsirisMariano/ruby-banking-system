@@ -1,9 +1,38 @@
-{
-  "nome": "Osiris",
-  "sobrenome": "Mariano",
-  "senha": "1111",
-  "saldo": 1580.0,
-  "historico": [
-    "\u001b[32m05/01/2026 17:41 - Depósito   + R$       1.00\u001b[0m"
-  ]
-}
+[
+  {
+    "nome": "Osiris",
+    "sobrenome": "Mariano",
+    "senha": "1111",
+    "saldo": 1000.0,
+    "historico": []
+  },
+  {
+    "nome": "Maria",
+    "sobrenome": "Margarida",
+    "senha": "2222",
+    "saldo": 900.0,
+    "historico": []
+  },
+  {
+    "nome": "osiris",
+    "sobrenome": "mariano",
+    "senha": "1111",
+    "saldo": 50.0,
+    "historico": [
+      "\u001b[32m13/01/2026 07:45 - Depósito   + R$     100.00\u001b[0m",
+      "\u001b[31m13/01/2026 07:45 - Saque      - R$      10.00\u001b[0m",
+      "\u001b[32m13/01/2026 07:46 - Depósito   + R$      10.00\u001b[0m",
+      "\u001b[31m13/01/2026 07:46 - Saque      - R$      50.00\u001b[0m"
+    ]
+  },
+  {
+    "nome": "maria",
+    "sobrenome": "jose",
+    "senha": "2222",
+    "saldo": 910.0,
+    "historico": [
+      "\u001b[32m13/01/2026 07:46 - Depósito   + R$    1000.00\u001b[0m",
+      "\u001b[31m13/01/2026 07:46 - Saque      - R$      90.00\u001b[0m"
+    ]
+  }
+]

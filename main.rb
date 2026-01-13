@@ -1,51 +1,90 @@
 require_relative 'conta_bancaria'
 require_relative 'sistema'
-#require_relative 'operacoes'
 
-# 1. Criamos o objeto único
-minha_conta = ContaBancaria.carregar_de_json
+# 1. Carregamos a LISTA completa de contas do JSON
+contas_no_sistema = ContaBancaria.carregar_todas
 
-if minha_conta.nil?
-  minha_conta = ContaBancaria.new("Osiris", "Mariano", "1111", 500.0)
-end
 limpar_tela
-puts "Bem-vindo ao Ruby Bank"
-minha_conta.exibir_resumo # Agora chamamos o comportamento do objeto
+puts "=== Bem-vindo ao Ruby Bank Multiuser ==="
 
+# 2. SISTEMA DE LOGIN / CADASTRO
+# Precisamos definir QUEM está operando o banco
+conta_logada = nil
+
+until conta_logada
+  puts "\n1. Acessar Minha Conta"
+  puts "2. Abrir Nova Conta"
+  puts "3. Sair"
+  print "Escolha: "
+  opcao_inicial = gets.chomp.to_i
+
+  case opcao_inicial
+  when 1
+    # Lógica de Login
+    print "Nome do Titular: "
+    nome_login = gets.chomp
+    print "Senha: "
+    senha_login = gets.chomp
+
+    # Procuramos na lista se existe alguém com esse nome e senha
+    conta_logada = contas_no_sistema.find { |c| c.nome == nome_login && c.senha == senha_login }
+    
+    puts "⚠️ Usuário ou senha incorretos!" unless conta_logada
+
+  when 2
+    # Lógica de Cadastro (Usando seu formulário do sistema.rb)
+    nome, sobrenome, email, telefone, senha = cadastrar_usuario
+    
+    # Criamos o objeto e adicionamos na nossa lista
+    nova_conta = ContaBancaria.new(nome, sobrenome, senha)
+    contas_no_sistema << nova_conta
+    
+    # Já logamos o usuário novo automaticamente
+    conta_logada = nova_conta
+    puts "✅ Conta criada com sucesso!"
+
+  when 3
+    exit # Encerra o programa
+  end
+end
+
+# 3. LOOP PRINCIPAL (Só chega aqui se houver uma 'conta_logada')
 opcao = 0
-
 while opcao != 5
   limpar_tela
-  # 2. CHAMADA CORRETA: O nome do método no seu sistema.rb é exibir_menu_principal
+  puts "Logado como: #{conta_logada.nome} #{conta_logada.sobrenome}"
+  
   opcao = exibir_menu_principal
 
   case opcao
   when 1
-    minha_conta.exibir_resumo
-    print "\nPressione ENTER para continuar..."
+    conta_logada.exibir_resumo # Usa o método da sua classe
+    puts "\nPressione Enter..."
     gets
   when 2
-    valor = ler_valor_valido("Quanto deseja depositar? R$ ")
-    minha_conta.depositar(valor)
-    print "\nPressione ENTER para continuar..."
+    valor = ler_valor_valido("Valor do depósito: ")
+    conta_logada.depositar(valor)
+    puts "\nPressione Enter..."
     gets
   when 3
-    valor = ler_valor_valido("Quanto deseja sacar? R$ ")
-    minha_conta.sacar(valor)
-    print "\nPressione ENTER para continuar..."
+    valor = ler_valor_valido("Valor do saque: ")
+    conta_logada.sacar(valor)
+    puts "\nPressione Enter..."
     gets
   when 4
-    # O método exibir_extrato está no seu sistema.rb e recebe o histórico do objeto
-    # Mas aqui vai uma dica de Senior: que tal mover o extrato para dentro da classe depois?
-    puts "\n--- EXTRATO DETALHADO ---"
-    minha_conta.historico.each { |h| puts h }
-    print "\nPressione ENTER para continuar..."
+    puts "--- Histórico ---"
+    if conta_logada.historico.empty?
+      puts "Nenhuma movimentação encontrada."
+    else
+      conta_logada.historico.each { |linha| puts linha }
+    end
+    puts "-----------------"
+    puts "\nSaldo autal: R$ #{format('%.2f', conta_logada.saldo)}"
+    puts "\nPressione Enter para voltar..."
     gets
   when 5
-    minha_conta.salvar_em_json
-    puts "Obrigado por usar o Ruby Bank! Salvando dados..."
-    # Aqui usaríamos sua função salvar_dados
-  else
-    puts "⚠️ Opção inválida!"
+    # IMPORTANTE: Ao sair, salvamos a LISTA INTEIRA de contas
+    ContaBancaria.salvar_todas(contas_no_sistema)
+    puts "Dados salvos. Até logo!"
   end
 end
