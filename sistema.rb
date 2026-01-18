@@ -32,17 +32,15 @@ def cadastrar_usuario
 end
 
 def exibir_menu_principal
-  puts "\n--- Menu Principal ---"
-  puts '1. Ver Saldo'
-  puts "2. Depositar Dinheiro"
-  puts "3. Sacar Dinheiro"
+  puts "\n--- MENU PRINCIPAL ---"
+  puts "1. Ver Saldo"
+  puts "2. Depositar"
+  puts "3. Sacar"
   puts "4. Ver Extrato"
-  puts "5. Sair"
-  print "\nEscolha uma opção: "
-
-  # Ele devolve (return) o número escolhido para o resto do programa
-  return gets.chomp.to_i
-
+  puts "5. Transferir"
+  puts "6. Sair"
+  print "Escolha uma opção: "
+  gets.chomp.to_i
 end
 
 def salvar_dados(nome, sobrenome, email, telefone, senha, saldo, historico)
