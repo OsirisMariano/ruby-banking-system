@@ -9,7 +9,6 @@ class ContaBancaria
     @sobrenome = sobrenome
     @senha = senha
     @saldo = saldo
-    # CORREÇÃO: Agora ele aceita o histórico que vem do JSON ou inicia vazio
     @historico = historico
   end
 
@@ -56,7 +55,6 @@ class ContaBancaria
   def depositar(valor)
     if valor > 0
       @saldo += valor
-      # PADRONIZAÇÃO: Usando o método de registro com a cor VERDE
       registrar_no_historico("Depósito", "+", valor, "\e[32m")
       puts "Depósito de R$ #{format('%.2f', valor)} realizado!"
     else
@@ -74,17 +72,46 @@ class ContaBancaria
     return puts "Senha Incorreta!" if gets.chomp != @senha
 
     @saldo -= valor
-    # PADRONIZAÇÃO: Usando o método de registro com a cor VERMELHA
     registrar_no_historico("Saque", "-", valor, "\e[31m")
     puts "Saque realizado!"
   end
 
+  # --- MÉTODOS DE TRANSFERÊNCIA (PÚBLICOS) ---
+  
+  def transferir(valor, conta_destino)
+    if valor <= 0 || valor > @saldo
+      puts "Erro: Valor inválido ou saldo insuficiente."
+      return false
+    end
+
+    print "Confirme sua senha para transferir R$ #{format('%.2f', valor)}: "
+    if gets.chomp != @senha
+      puts "Senha incorreta! Operação cancelada."
+      return false
+    end
+
+    @saldo -= valor
+    # Notifica a outra conta para receber o valor
+    conta_destino.receber_transferencia(valor, "#{@nome} #{@sobrenome}")
+    
+    # Registra no meu histórico
+    registrar_no_historico("Transf. Env.", "-", valor, "\e[31m")
+    
+    puts "Transferência realizada com sucesso para #{conta_destino.nome}!"
+    true
+  end
+
+  def receber_transferencia(valor, nome_origem)
+    @saldo += valor
+    registrar_no_historico("Transf. Rec.", "+", valor, "\e[32m")
+  end
+
+  # --- TUDO ABAIXO DE PRIVATE É SÓ PARA USO INTERNO ---
   private
 
   def registrar_no_historico(tipo, sinal, valor, cor)
-    # Certifique-se de que Time ou DateTime está disponível
     data_hora = Time.now.strftime('%d/%m/%Y %H:%M')
-    tipo_formatado = tipo.ljust(10)
+    tipo_formatado = tipo.ljust(12)
     simbolo = "#{sinal} R$".ljust(5)
     valor_f = format('%.2f', valor).rjust(10)
     
