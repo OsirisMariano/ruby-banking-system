@@ -3,6 +3,30 @@ def limpar_tela
   Gem.win_platform? ? system('cls') : system('clear')
 end
 
+def linha(tamanho = 60)
+  "=" * tamanho
+end
+
+def cabecalho(texto)
+  largura = 60
+  puts "╔#{linha(largura)}╗"
+  puts "║#{texto.center(largura)}║"
+  puts "╚#{linha(largura)}╝"
+end
+
+def tamanho_real(texto)
+  texto.gsub(/\e\[\d+m/, "").length
+end
+
+def centralizar_com_cores(texto, largura)
+  espacos = [0, (largura - tamanho_real(texto)) / 2].max
+  " " * espacos + texto + " " * (largura - tamanho_real(texto) - espacos)
+end
+
+def alinhar_extrado(texto, largura)
+  texto + " " * (largura - tamanho_real(texto))
+end
+
 def cadastrar_usuario
   puts "--- Formulário de Cadastro ---"
   print "Digite seu nome: "
@@ -32,14 +56,15 @@ def cadastrar_usuario
 end
 
 def exibir_menu_principal
-  puts "\n--- MENU PRINCIPAL ---"
-  puts "1. Ver Saldo"
-  puts "2. Depositar"
-  puts "3. Sacar"
-  puts "4. Ver Extrato"
-  puts "5. Transferir"
-  puts "6. Sair"
-  print "Escolha uma opção: "
+  cabecalho("MENU PRINCIPAL - RUBY BANK")
+  puts "  1. 💰 Ver Saldo"
+  puts "  2. 📥 Depositar"
+  puts "  3. 📤 Sacar"
+  puts "  4. 📜 Ver Extrato"
+  puts "  5. 💸 Transferir"
+  puts "  6. 🚪 Sair"
+  puts "╚#{linha(60)}╝"
+  print " escolha uma opção: "
   gets.chomp.to_i
 end
 
