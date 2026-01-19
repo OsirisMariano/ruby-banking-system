@@ -74,14 +74,24 @@ while opcao != 6
     puts "\nPressione Enter para continuar..."
     gets
   when 4
-    puts "\n--- Histórico de Movimentações ---"
+    limpar_tela
+    cabecalho("EXTRATO BANCARIO")
+    largura_interna = 60
+
+
     if conta_logada.historico.empty?
-      puts "Nenhuma movimentação encontrada."
+      puts "║" + " ".center(largura_interna) + "║"
+      puts "║" + "Nenhum movimento encontrado.".center(largura_interna) + "║"
     else
-      conta_logada.historico.each { |linha| puts linha }
+      conta_logada.historico.each do |linha_hist|
+        puts "║ " + alinhar_extrado(linha_hist, largura_interna - 2) + " ║"
+      end
     end
-    puts "----------------------------------"
-    puts "Saldo atual: R$ #{format('%.2f', conta_logada.saldo)}"
+
+    puts "╠#{linha(largura_interna)}╣"
+    saldo_texto = "Saldo Atual: R$ #{format('%.2f', conta_logada.saldo)}"
+    puts "║" + centralizar_com_cores(saldo_texto, largura_interna) + "║"
+    puts "╚#{linha(largura_interna)}╝"
     puts "\nPressione Enter para voltar ao menu..."
     gets
   when 5

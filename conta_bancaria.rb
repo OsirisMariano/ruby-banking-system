@@ -111,10 +111,14 @@ class ContaBancaria
 
   def registrar_no_historico(tipo, sinal, valor, cor)
     data_hora = Time.now.strftime('%d/%m/%Y %H:%M')
-    tipo_formatado = tipo.ljust(12)
-    simbolo = "#{sinal} R$".ljust(5)
-    valor_f = format('%.2f', valor).rjust(10)
     
-    @historico << "#{cor}#{data_hora} - #{tipo_formatado} #{simbolo}#{valor_f}\e[0m"
+    col_tipo = tipo.ljust(15)
+    col_valor = "#{sinal} R$ #{format('%.2f', valor)}".rjust(18)
+
+    # tipo_formatado = tipo.ljust(12)
+    # simbolo = "#{sinal} R$".ljust(5)
+    # valor_f = format('%.2f', valor).rjust(10)
+    
+    @historico << "#{data_hora} | #{cor}#{col_tipo}\e[0m | #{cor}#{col_valor}\e[0m"
   end
 end
